@@ -1,0 +1,12 @@
+{
+  "name": "ai-assistant",
+  "description": "A personal AI assistant built as plain files: a weekday Daily Brief, meeting prep, notes that stick, and email drafts. Setup copies the files into your folder, so the assistant is a folder you can read and edit. Nothing is ever sent.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Jonathan Malkin",
+    "url": "https://opendoorlearningai.com"
+  },
+  "homepage": "https://github.com/jonathanmalkin/ai-assistant-plugin",
+  "repository": "https://github.com/jonathanmalkin/ai-assistant-plugin",
+  "keywords": ["assistant", "daily brief", "meeting prep", "email", "files"]
+}

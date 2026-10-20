@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Assistant: Troubleshooting</title>
+<style>
+  body { margin: 0; background: #fbf6ec; color: #1f1713; font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { max-width: 42rem; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  h2 { font-size: 1.15rem; margin: 28px 0 8px; }
+  p.sub { color: #5e5047; margin: 0 0 20px; }
+  section { background: #fffdf8; border: 1px solid #e5d7c3; border-radius: 10px; padding: 4px 18px 12px; margin: 12px 0; }
+  a { color: #3b6e8f; }
+  code { background: #f3eadb; padding: 1px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Troubleshooting</h1>
+<p class="sub">Find the problem, try the fix. First try: ask the assistant itself what went wrong.</p>
+
+<section>
+<h2>The assistant can't see my folder</h2>
+<p>Add the folder to the chat (the + button, or the folder option in a new task), then type <strong>set me up</strong>. Any folder works; an empty one such as Documents/My Assistant is fine. The assistant copies its files there the first time.</p>
+</section>
+
+<section>
+<h2>Email or calendar isn't connected</h2>
+<p>Open <strong>Customize</strong>, then <strong>Connectors</strong>, and connect Gmail and Google Calendar, or Outlook / Microsoft 365. Setup keeps going without them and tells you what's missing. On a Team or Enterprise plan, an admin may need to turn a connector on first.</p>
+</section>
+
+<section>
+<h2>It keeps asking for permission</h2>
+<p>Set the chat's permission menu to <strong>Auto</strong>, or choose <strong>Always allow</strong> when a prompt appears. The assistant only reads, writes files in your folder, and creates email drafts. It never sends anything.</p>
+</section>
+
+<section>
+<h2>The Daily Brief didn't run</h2>
+<p>The scheduled task runs weekdays at 8:00 AM only while the Claude desktop app is open and the computer is awake, and the folder must stay where it was. Check <strong>Scheduled</strong> in the sidebar for a task named Daily Brief. If it missed a morning, type <strong>run my daily brief</strong>.</p>
+</section>
+
+<section>
+<h2>A draft doesn't sound like me</h2>
+<p>Tell the assistant what's off (greeting, sign-off, length, a phrase you never use). It saves the rule in <code>About-Me.md</code> under "How I like things" and uses it from then on.</p>
+</section>
+
+<section>
+<h2>I edited a workflow and an update replaced it</h2>
+<p>"Update my assistant" refreshes <code>CLAUDE.md</code> and <code>Workflows/</code> from the plugin. Your profile, people, meetings and briefs are never touched. Put personal rules in <code>About-Me.md</code> under "How I like things"; they override the defaults and survive updates.</p>
+</section>
+</main>
+</body>
+</html>

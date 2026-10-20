@@ -1,0 +1,18 @@
+{
+  "name": "jonathanmalkin",
+  "owner": {
+    "name": "Jonathan Malkin",
+    "url": "https://opendoorlearningai.com"
+  },
+  "metadata": {
+    "description": "Plugins from Jonathan Malkin, AI Educator in Austin."
+  },
+  "plugins": [
+    {
+      "name": "ai-assistant",
+      "source": "./plugins/ai-assistant",
+      "description": "A personal AI assistant built as plain files: a weekday Daily Brief, meeting prep, notes that stick, and email drafts. Nothing is ever sent.",
+      "version": "0.1.0"
+    }
+  ]
+}

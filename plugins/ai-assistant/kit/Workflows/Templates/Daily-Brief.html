@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief - [Weekday, Month D]</title>
+<!--
+  DAILY BRIEF TEMPLATE. Instructions for Claude (Workflows/Daily-Brief.md, Step 5):
+
+  1. Copy this whole file. Never edit the template itself.
+  2. Replace every [bracket] marker with real content from this run.
+  3. Each block between <!- - REPEAT: ... - -> and <!- - /REPEAT - -> shows ONE example row.
+     Repeat that row once per real item, in order, and delete the example.
+  4. Set each count badge to the number of rows in its card.
+  5. A section with nothing in it: keep the card and swap its list for the commented-out EMPTY line,
+     or remove the whole card if the section does not apply. Never show a blank card.
+  6. Optional bits (the now/next tag, join link, sub-line, heads-up line, parked line)
+     are marked OPTIONAL. Delete them when there is nothing to say.
+  7. Delete all these HTML comments, then search the page for "[". No placeholder text may remain.
+
+  The page is static: no scripts, no outside fonts or images, no live data.
+  It is written once per run and shows what was true when it was built.
+-->
+<style>
+  :root{
+    color-scheme: light;
+    --ink:#202228; --muted:#5f6169; --line:#ebeff7; --row:#eff1f6;
+    --purple:#6a4fa6; --purple-soft:#efe7f8; --purple-label:#6d52b5;
+    --blue:#2662a6; --blue-soft:#e7f0fb;
+    --amber:#9a5a12; --amber-soft:#fdebd9;
+    --orange:#ff891c; --orange-ink:#3a2408;
+    --green:#2f7a58; --gray-tag:#6b6d75;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;min-height:100vh;color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;
+    background:#f2ecfb;background-image:linear-gradient(165deg,#eae3fa 0%,#f2ecfb 44%,#e6dcf5 100%);}
+  a{color:var(--blue);}
+  .wrap{max-width:1060px;margin:0 auto;padding:24px 16px 40px;}
+
+  /* header */
+  header{display:flex;flex-wrap:wrap;align-items:flex-end;gap:4px 16px;padding:4px 2px 16px;margin-bottom:20px;border-bottom:1px solid #e3dcf2;}
+  .eyebrow{flex-basis:100%;font-size:0.9rem;font-weight:700;color:var(--purple-label);}
+  .greet{margin:0;font-size:clamp(1.75rem,5vw,2.4rem);font-weight:750;letter-spacing:-0.01em;line-height:1.15;}
+  .date{margin:2px 0 0;color:var(--muted);font-size:1.05rem;}
+  .clock{margin-left:auto;font-size:1.3rem;font-weight:700;color:var(--purple-label);white-space:nowrap;}
+
+  /* layout */
+  .stack{display:flex;flex-direction:column;gap:18px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}}
+
+  /* cards */
+  .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 20px 18px;box-shadow:0 1px 3px rgba(32,34,40,0.05);min-width:0;}
+  .card h2{margin:0;font-size:1.15rem;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .sub{margin:2px 0 12px;color:var(--muted);font-size:1rem;}
+  .count{font-size:0.85rem;font-weight:700;line-height:1;color:var(--orange-ink);background:var(--orange);border-radius:20px;padding:4px 9px;}
+  .empty{color:var(--muted);padding:4px 0;margin:0;}
+  ul.rows{list-style:none;margin:0;padding:0;}
+
+  /* first move */
+  .first{border-left:5px solid var(--orange);}
+  .first p{margin:6px 0 0;font-size:1.05rem;}
+  .first .heads{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--muted);font-size:1rem;}
+
+  /* schedule */
+  .ev{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:10px 0;border-top:1px solid var(--row);}
+  .ev:first-child{border-top:none;}
+  .time{font-size:0.95rem;font-weight:650;color:var(--blue);background:var(--blue-soft);border-radius:10px;padding:3px 10px;white-space:nowrap;min-width:6.5em;text-align:center;}
+  .ev:nth-child(3n+2) .time{color:var(--amber);background:var(--amber-soft);}
+  .ev:nth-child(3n+3) .time{color:var(--purple);background:var(--purple-soft);}
+  .ev .what{flex:1 1 12em;min-width:0;}
+  .ev .ti{font-weight:600;font-size:1.05rem;}
+  .ev .lo{display:block;color:var(--muted);font-size:1rem;}
+  .pill{font-size:0.82rem;font-weight:700;border-radius:20px;padding:2px 10px;margin-left:6px;vertical-align:2px;}
+  .pill.now{background:var(--orange);color:var(--orange-ink);}
+  .pill.next{background:var(--blue);color:#fff;}
+  .join{font-weight:650;text-decoration:none;white-space:nowrap;}
+  .join:hover{text-decoration:underline;}
+
+  /* goals */
+  .goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
+  .goal{border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;}
+  .tag{display:inline-block;font-size:0.85rem;font-weight:700;color:#fff;border-radius:20px;padding:2px 10px;}
+  .tag.moving{background:var(--green);}
+  .tag.stalled{background:var(--amber);}
+  .tag.untouched{background:var(--gray-tag);}
+  .goal .gt{margin:8px 0 4px;font-weight:650;line-height:1.3;}
+  .goal .st{margin:0;color:var(--muted);line-height:1.4;}
+
+  /* meeting prep */
+  .day{font-size:1rem;margin:14px 0 4px;padding-top:10px;border-top:1px solid var(--row);font-weight:700;color:var(--purple-label);}
+  .day:first-of-type{margin-top:0;padding-top:0;border-top:none;}
+  .pi{padding:8px 0;}
+  .pi-head{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;}
+  .pi .when{font-size:0.95rem;font-weight:650;color:var(--blue);background:var(--blue-soft);border-radius:10px;padding:2px 10px;white-space:nowrap;}
+  .pi .ti{font-weight:650;}
+  .pi .note{margin:4px 0 0;color:var(--muted);}
+  .links{margin-top:8px;display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{font-size:0.92rem;font-weight:650;color:var(--blue);background:#f1f6fc;border:1px solid #d6e2f2;border-radius:14px;padding:3px 12px;text-decoration:none;}
+  .chip:hover{background:var(--blue);border-color:var(--blue);color:#fff;}
+
+  /* to-do */
+  .todo{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--row);}
+  .todo:first-child{border-top:none;}
+  .circle{flex:none;width:16px;height:16px;margin-top:4px;border:2px solid #c7cad2;border-radius:50%;background:#fff;}
+  .todo .tt{font-weight:600;}
+  .todo .tn{display:block;color:var(--muted);}
+  .parked{margin:12px 0 0;padding-top:10px;border-top:1px dashed var(--line);color:var(--muted);}
+
+  /* drafts */
+  .draftbar{background:#f7f8fa;border:1px solid var(--line);border-radius:12px;padding:9px 12px;margin-bottom:10px;font-weight:650;}
+  .draftbar a{text-decoration:none;white-space:nowrap;}
+  .draftbar a:hover{text-decoration:underline;}
+  .mail{padding:9px 0 9px 12px;margin:6px 0;border-left:4px solid var(--orange);}
+  .mail .to{font-weight:650;display:flex;flex-wrap:wrap;align-items:center;gap:6px;}
+  .mail .subj{display:block;}
+  .mail .one{display:block;color:var(--muted);overflow-wrap:anywhere;}
+  .tag.draft{background:var(--amber-soft);color:var(--amber);}
+
+  /* waiting */
+  .wait{padding:9px 0;border-top:1px solid var(--row);}
+  .wait:first-child{border-top:none;}
+  .wait .w{font-weight:650;}
+  .wait .s{color:var(--muted);}
+  .wait .since{display:block;color:var(--muted);}
+
+  footer{margin-top:24px;text-align:center;color:#5d5880;font-size:1rem;line-height:1.6;}
+  footer p{margin:0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Daily Brief</div>
+    <div>
+      <!-- FILL: first name from About-Me.md. Use "Good afternoon" or "Good evening" if built after noon or 5 PM. -->
+      <h1 class="greet">Good morning, [First name]</h1>
+      <p class="date">[Weekday, Month D]</p>
+    </div>
+    <!-- FILL: the time this page was built, in the user's time zone. -->
+    <div class="clock">[H:MM AM]</div>
+  </header>
+
+  <div class="stack">
+
+    <!-- FIRST MOVE: one concrete action, under 15 minutes if possible, tied to a goal when you can. -->
+    <section class="card first" aria-labelledby="first-h">
+      <h2 id="first-h">First move</h2>
+      <p>[One concrete action, and the goal it moves.]</p>
+      <!-- OPTIONAL: a heavy day, a This-Week.md vs calendar mismatch, or anything that could go wrong today. Delete if none. -->
+      <p class="heads">Heads up: [one line]</p>
+    </section>
+
+    <!-- SCHEDULE: from today's calendar, in time order. -->
+    <section class="card" aria-labelledby="cal-h">
+      <h2 id="cal-h">Today's schedule <span class="count">[N]</span></h2>
+      <p class="sub">Everything on the calendar for today</p>
+      <ul class="rows">
+        <!-- REPEAT: one <li> per calendar event today -->
+        <li class="ev">
+          <span class="time">[H:MM AM]</span>
+          <span class="what">
+            <span class="ti">[Event title]</span><!-- OPTIONAL: <span class="pill now">now</span> if under way when built, or <span class="pill next">next</span> on the next upcoming event. Use at most one of each. --><span class="pill next">next</span>
+            <!-- OPTIONAL: who or where, one line --><span class="lo">[With whom, or where]</span>
+          </span>
+          <!-- OPTIONAL: video link from the calendar event --><a class="join" href="[meeting link]">Join link &#8599;</a>
+        </li>
+        <!-- /REPEAT -->
+      </ul>
+      <!-- EMPTY: use instead of the list when the calendar is clear --><!-- <p class="empty">Nothing on the calendar today. A good day for goal work.</p> -->
+    </section>
+
+    <!-- GOALS: one card per goal in About-Me.md. Tag class and word: moving (Moving), stalled (Stalled), untouched (Untouched). -->
+    <section class="card" aria-labelledby="goal-h">
+      <h2 id="goal-h">Goal progress</h2>
+      <p class="sub">Your goals for the next 90 days, checked honestly</p>
+      <div class="goals">
+        <!-- REPEAT: one goal card per goal -->
+        <div class="goal">
+          <span class="tag moving">Moving</span>
+          <p class="gt">[Goal, short form]</p>
+          <p class="st">[One honest line: what today or recent email does for it, or how long since it moved.]</p>
+        </div>
+        <!-- /REPEAT -->
+      </div>
+    </section>
+
+    <div class="grid2">
+
+      <!-- MEETING PREP: meetings today and tomorrow that matter. Links point to pages in Meetings/ and People/. -->
+      <section class="card" aria-labelledby="prep-h">
+        <h2 id="prep-h">Meeting prep <span class="count">[N]</span></h2>
+        <p class="sub">Today and tomorrow. Open a prep page to read it in full.</p>
+        <!-- REPEAT: one day heading ("Today" or "Tomorrow"), followed by its meetings. Drop a day with no meetings. -->
+        <h3 class="day">[Today]</h3>
+        <!-- REPEAT: one .pi per meeting that day -->
+        <div class="pi">
+          <div class="pi-head"><span class="when">[H:MM AM]</span><span class="ti">[Meeting title]</span></div>
+          <p class="note">[The one thing to walk in knowing.]</p>
+          <div class="links">
+            <a class="chip" href="../Meetings/[file].html">Meeting prep</a>
+            <!-- OPTIONAL: a person file, if one exists --><a class="chip" href="../People/[Name].md">[Name]</a>
+          </div>
+        </div>
+        <!-- /REPEAT -->
+        <!-- /REPEAT -->
+        <!-- EMPTY --><!-- <p class="empty">No meetings need prep today or tomorrow.</p> -->
+      </section>
+
+      <!-- TO-DO: today's priorities from This-Week.md, plus things the user owes someone. -->
+      <section class="card" aria-labelledby="todo-h">
+        <h2 id="todo-h">To-do list <span class="count">[N]</span></h2>
+        <p class="sub">From This-Week.md. Tell me what you finished and I'll mark it done.</p>
+        <ul class="rows">
+          <!-- REPEAT: one .todo per item -->
+          <li class="todo">
+            <span class="circle" aria-hidden="true"></span>
+            <span><span class="tt">[Task]</span><!-- OPTIONAL sub-line --><span class="tn">[Why or by when, one line]</span></span>
+          </li>
+          <!-- /REPEAT -->
+        </ul>
+        <!-- EMPTY --><!-- <p class="empty">No open to-dos. Pick one goal and give it an hour.</p> -->
+        <!-- OPTIONAL: items deliberately set aside this week -->
+        <p class="parked">Parked for now: [item], [item].</p>
+      </section>
+
+    </div>
+
+    <div class="grid2">
+
+      <!-- EMAIL DRAFTS: only drafts created in this run. Never claim a draft that was not created. -->
+      <section class="card" aria-labelledby="draft-h">
+        <h2 id="draft-h">Email drafts for approval <span class="count">[N]</span></h2>
+        <p class="sub">Replies drafted this morning. Review and send them yourself.</p>
+        <div class="draftbar">[N] drafts ready &middot; <a href="https://mail.google.com/mail/u/0/#drafts">Open Gmail Drafts &#8599;</a></div>
+        <!-- REPEAT: one .mail per draft created -->
+        <div class="mail">
+          <span class="to">To: [Name] <span class="tag draft">draft</span></span>
+          <span class="subj">Re: [Subject]</span>
+          <span class="one">[First line of the draft...]</span>
+        </div>
+        <!-- /REPEAT -->
+        <!-- EMPTY: replace the draftbar and rows with --><!-- <p class="empty">No drafts this morning. Nothing in your inbox needs a reply from you yet.</p> -->
+        <!-- OPTIONAL: a reply that needs the user's decision instead of a draft -->
+        <p class="empty">Needs your call: [sender] - [the decision needed].</p>
+      </section>
+
+      <!-- WAITING ON OTHERS: from the Waiting on list in This-Week.md, only where someone else owes the user. -->
+      <section class="card" aria-labelledby="wait-h">
+        <h2 id="wait-h">Waiting on others <span class="count">[N]</span></h2>
+        <p class="sub">Where the ball is in someone else's court</p>
+        <ul class="rows">
+          <!-- REPEAT: one .wait per item -->
+          <li class="wait"><span class="w">[Person]</span> <span class="s">- [what you are waiting for]</span><span class="since">since [Weekday or Month D]</span></li>
+          <!-- /REPEAT -->
+        </ul>
+        <!-- EMPTY --><!-- <p class="empty">You're not waiting on anyone right now.</p> -->
+      </section>
+
+    </div>
+  </div>
+
+  <footer>
+    <!-- FILL: what was actually read. Examples: "Built 8:03 AM from your calendar and email."
+         or "Built 8:03 AM from your calendar. Email was not connected this run." -->
+    <p>Built [H:MM AM] from your [calendar and email].</p>
+    <p>Drafts only. Nothing was sent, posted, or changed on your calendar.</p>
+  </footer>
+
+</div>
+</body>
+</html>
